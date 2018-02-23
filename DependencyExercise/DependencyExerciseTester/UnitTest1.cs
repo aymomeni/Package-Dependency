@@ -135,7 +135,7 @@ namespace DependencyExerciseTester
         }
 
         /// <summary>
-        /// Testing boarder cases where a dependency is dependent on itself
+        /// Testing larger number of simple dependencies
         /// </summary>
         [TestMethod]
         public void TestMethod8()
@@ -148,12 +148,10 @@ namespace DependencyExerciseTester
             {
                 sList.Add(i + ": " + ((int)i-1));
             }
-            string[] strArrGiven = new string[sList.Count];
 
             StringBuilder sBuilder = new StringBuilder();
             for (int i = 0; i < sList.Count; i++)
             {
-                strArrGiven[i] = sList[i];
 
                 if (i + 1 < sList.Count)
                 {
@@ -167,25 +165,57 @@ namespace DependencyExerciseTester
             }
 
             DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            string actual = dS.solvePackageDependencies(sList.ToArray());
             string expected = sBuilder.ToString();
 
             Assert.AreEqual(expected, actual, "Test8 Failed");
         }
 
 
-        //[TestMethod]
-        //public void TestMethod5()
-        //{
-        //    string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: " };
-        //    DependencySolver dS = new DependencySolver();
-        //    string actual = "";
-        //    string expected = "Invalid";
+        /// <summary>
+        /// Larger number of nodes without any dependencies
+        /// </summary>
+        [TestMethod]
+        public void TestMethod9()
+        {
 
-        //    Assert.AreEqual(expected, actual, "Test5 Failed (should return invalid)");
-        //}
+            List<string> sList = new List<string>();
+
+            for (int i = 0; i < 50; i++)
+            {
+                sList.Add(i + ": ");
+            }
+
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < sList.Count; i++)
+            {
+                if (i + 1 < sList.Count)
+                {
+                    sBuilder.Append((i) + ", ");
+                }
+                else
+                {
+                    sBuilder.Append((i));
+                }
+            }
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(sList.ToArray());
+            string expected = sBuilder.ToString();
+
+            Assert.AreEqual(expected, actual, "Test9 Failed");
+        }
 
 
+        [TestMethod]
+        public void TestMethod10()
+        {
+            string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: ", "Ice: Leetmeme" };
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "invalid";
 
+            Assert.AreEqual(expected, actual, "Test5 Failed (should return invalid)");
+        }
     }
 }

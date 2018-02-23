@@ -30,13 +30,13 @@ namespace DependencyExercise
         /// such that a package's dependency will always precede that package.
         /// </summary>
         /// <param name="inputArrOfStringTuples"></param>
-        /// <returns>string of packages in topological order, or null if an invalid string array was given 
+        /// <returns>string of packages in topological order, or invalid if an invalid string array was given 
         /// (dependency is cyclic or has more than one dependent per dependee)</returns>
         public string solvePackageDependencies(string[] inputArrOfStringTuples)
         {
-            if (inputArrOfStringTuples.Length == 0) { return null; }
+            if (inputArrOfStringTuples.Length == 0 || inputArrOfStringTuples == null) { return "invalid"; }
         
-            string result = "";
+            HashSet<string> result = new HashSet<string>();
 
             // processing the strings in the array &
             // populating queue and dict.
@@ -62,7 +62,7 @@ namespace DependencyExercise
                     {
                         mDictionaryDependeeDependent.TryGetValue(tempKey, out tempValue);
                         mQueue.Enqueue(tempValue);
-                        result += tempKey + ", ";
+                        result.Add(tempKey + ", ");
                         necessaryEdgeFollowups--;
                     }
                     else if (mQueue.Count == 0 && necessaryEdgeFollowups == 0)
@@ -71,14 +71,19 @@ namespace DependencyExercise
                     }
                     else
                     {
-                        result += tempKey + ", ";
+                        if (result.Contains(tempKey + ", "))
+                        {
+                            return "invalid";
+                        } else {
+                            result.Add(tempKey + ", ");
+                        }
                     }
                 }
                 catch (ArgumentNullException e) { Console.WriteLine(e.ToString()); }
                 
             }
-            result += tempKey;
-            return result;
+            result.Add(tempKey);
+            return string.Join("", result);
         }
 
         /// <summary>
@@ -144,7 +149,6 @@ namespace DependencyExercise
 
         static void Main(string[] args)
         {
-
             // Quick check if regex works
             //string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: " };
 
