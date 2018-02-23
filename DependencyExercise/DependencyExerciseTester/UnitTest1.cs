@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DependencyExercise;
+using System.Text;
+using System.Collections.Generic;
 
 /*
  * @author: Ali Momeni 
@@ -86,16 +88,102 @@ namespace DependencyExerciseTester
             Assert.AreEqual(expected, actual, "Test4 Failed");
         }
 
+        /// <summary>
+        /// Testing boarder cases of only a single package
+        /// </summary>
         [TestMethod]
         public void TestMethod5()
         {
-            string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: " };
-            DependencySolver dS = new DependencySolver();
-            string actual = "";
-            string expected = "Invalid";
+            string[] strArrGiven = new string[] { "1: "};
 
-            Assert.AreEqual(expected, actual, "Test5 Failed (should return invalid)");
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "1";
+
+            Assert.AreEqual(expected, actual, "Test5 Failed");
         }
+
+        /// <summary>
+        /// Testing boarder cases where a dependency is dependent on itself
+        /// </summary>
+        [TestMethod]
+        public void TestMethod6()
+        {
+            string[] strArrGiven = new string[] { "1: 1" };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "invalid";
+
+            Assert.AreEqual(expected, actual, "Test6 Failed");
+        }
+
+        /// <summary>
+        /// Testing boarder cases where a dependency is dependent on itself within
+        /// small number of nodes
+        /// </summary>
+        [TestMethod]
+        public void TestMethod7()
+        {
+            string[] strArrGiven = new string[] { "1: 2", "2: 3", "3: 1" };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "invalid";
+
+            Assert.AreEqual(expected, actual, "Test6 Failed");
+        }
+
+        /// <summary>
+        /// Testing boarder cases where a dependency is dependent on itself
+        /// </summary>
+        [TestMethod]
+        public void TestMethod8()
+        {
+
+            List<string> sList = new List<string>();
+            sList.Add("1: ");
+
+            for (int i = 2; i < 100; i += 2)
+            {
+                sList.Add(i + ": " + ((int)i + 1));
+            }
+            string[] strArrGiven = new string[50];
+
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < sList.Count; i++)
+            {
+                strArrGiven[i] = sList[i];
+
+                if (i < sList.Count)
+                {
+                    sBuilder.Append((i + 1) + ", ");
+                }
+                else
+                {
+                    sBuilder.Append((i + 1));
+                }
+                
+            }
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = sBuilder.ToString();
+
+            Assert.AreEqual(expected, actual, "Test8 Failed");
+        }
+
+
+        //[TestMethod]
+        //public void TestMethod5()
+        //{
+        //    string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: " };
+        //    DependencySolver dS = new DependencySolver();
+        //    string actual = "";
+        //    string expected = "Invalid";
+
+        //    Assert.AreEqual(expected, actual, "Test5 Failed (should return invalid)");
+        //}
 
 
 

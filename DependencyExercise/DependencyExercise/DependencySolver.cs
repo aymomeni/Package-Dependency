@@ -16,7 +16,7 @@ namespace DependencyExercise
     public class DependencySolver
     {
         // Member variables
-        private int necessaryFollowups = 0;
+        private int necessaryEdgeFollowups = 0;
         private bool invalid = false;
         private Queue<string> mQueue = new Queue<string>();
         private Dictionary<string, string> mDictionaryDependeeDependent = new Dictionary<string, string>();
@@ -35,11 +35,8 @@ namespace DependencyExercise
         public string solvePackageDependencies(string[] inputArrOfStringTuples)
         {
             if (inputArrOfStringTuples.Length == 0) { return null; }
-            else if (inputArrOfStringTuples.Length == 1) { return inputArrOfStringTuples[0]; }
         
             string result = "";
-
-            //TODO: could there only be 2 elements?
 
             // processing the strings in the array &
             // populating queue and dict.
@@ -52,8 +49,12 @@ namespace DependencyExercise
             string tempKey = "";
             string tempValue = "";
             
-            while(mQueue.Count > 0 || necessaryFollowups > 0) {
-                tempKey = mQueue.Dequeue();
+            while(mQueue.Count > 0 || necessaryEdgeFollowups > 0) {
+
+                if (mQueue.Count > 0)
+                {
+                    tempKey = mQueue.Dequeue();
+                }
 
                 try
                 {
@@ -62,11 +63,11 @@ namespace DependencyExercise
                         mDictionaryDependeeDependent.TryGetValue(tempKey, out tempValue);
                         mQueue.Enqueue(tempValue);
                         result += tempKey + ", ";
-                        necessaryFollowups--;
+                        necessaryEdgeFollowups--;
                     }
-                    else if (mQueue.Count == 0 && necessaryFollowups == 0)
+                    else if (mQueue.Count == 0 && necessaryEdgeFollowups == 0)
                     {
-                        break;
+                        break; // break out so no comma is added at the last element
                     }
                     else
                     {
@@ -120,7 +121,7 @@ namespace DependencyExercise
                             invalid = true;
                         }
                         mDictionaryDependeeDependent.Add(tempDependee, tempDependent);
-                        necessaryFollowups++;
+                        necessaryEdgeFollowups++;
                     }
 
                     // TODO: What if we find at this point that this is cyclic or not based on specification?
