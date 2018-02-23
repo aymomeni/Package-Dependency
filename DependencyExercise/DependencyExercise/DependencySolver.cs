@@ -17,6 +17,8 @@ namespace DependencyExercise
     {
         // Member variables
         // dictionary ? and queue?
+        private Queue<string> mQueue = new Queue<string>();
+        private Dictionary<string, string> mDictionaryDependeeDependent = new Dictionary<string, string>();
 
         /// <summary>
         /// returns a comma seperated string of package names in the order of install,
@@ -52,10 +54,18 @@ namespace DependencyExercise
                     tempDependent = match.Groups["Dependent"].Value.Trim();
                     tempDependee = match.Groups["Dependee"].Value.Trim();
 
+                    // if dependee is empty we know that the node is good starting node as 
+                    // it doesn't have any dependents (a root node) -> add it queue (FIFO)
+
+                    if (tempDependent.Equals(""))
+                    {
+                        //mQueue
+                    }
+
+                    match.NextMatch();
                     Console.WriteLine("Dependent: " + tempDependent + " Dependee: " + tempDependee);
                 }
             }
-            
 
             return;
         }
