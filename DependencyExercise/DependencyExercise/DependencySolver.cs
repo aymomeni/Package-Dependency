@@ -17,6 +17,7 @@ namespace DependencyExercise
     {
         // Member variables
         private int necessaryFollowups = 0;
+        private bool invalid = false;
         private Queue<string> mQueue = new Queue<string>();
         private Dictionary<string, string> mDictionaryDependeeDependent = new Dictionary<string, string>();
 
@@ -42,7 +43,11 @@ namespace DependencyExercise
 
             // processing the strings in the array &
             // populating queue and dict.
-            parseArrHelper(inputArrOfStringTuples);
+            solvePackageDependenciesHelper(inputArrOfStringTuples);
+            if (invalid == true)
+            {
+                return "invalid";
+            }
 
             string tempKey = "";
             string tempValue = "";
@@ -59,7 +64,7 @@ namespace DependencyExercise
                         result += tempKey + ", ";
                         necessaryFollowups--;
                     }
-                    else if (necessaryFollowups == 0)
+                    else if (mQueue.Count == 0 && necessaryFollowups == 0)
                     {
                         break;
                     }
@@ -76,11 +81,13 @@ namespace DependencyExercise
         }
 
         /// <summary>
-        /// Helper method that uses regex to parse string array into tuples
+        /// Helper method that uses regex to parse string array into tuples. Performs
+        /// circular dependency checks, and checks if a node has more then one dependent.
+        /// Also populates the member queue and dictionary for further processing.
         /// </summary>
         /// <param name="sArr"></param>
         /// <returns></returns>
-        private void parseArrHelper(string[] sArr)
+        private void solvePackageDependenciesHelper(string[] sArr)
         {
             // allowing regex to capture numbers so the testing is easier (I guess one could use only single letters but there is only 26 :)
             Regex regex = new Regex("(?<Dependent>[A-Za-z0-9]+)\\:\\s*(?<Dependee>[A-Za-z0-9]*)");
@@ -108,6 +115,10 @@ namespace DependencyExercise
                     {
                         // else the node can not be a root node and the dependee of this node
                         // must be checked for further dependents
+                        if (mDictionaryDependeeDependent.ContainsKey(tempDependee))
+                        {
+                            invalid = true;
+                        }
                         mDictionaryDependeeDependent.Add(tempDependee, tempDependent);
                         necessaryFollowups++;
                     }
@@ -120,6 +131,12 @@ namespace DependencyExercise
                 }
             }
 
+            // if the queue has no elements
+            // in the queue it must be a circular dependence
+            if (mQueue.Count == 0)
+            {
+                invalid = true;
+            }
             return;
         }
 
