@@ -21,17 +21,13 @@ namespace DependencyExercise
         private Queue<string> mQueue = new Queue<string>();
         private Dictionary<string, string> mDictionaryDependeeDependent = new Dictionary<string, string>();
 
-        public DependencySolver(){
-
-        }
-
         /// <summary>
         /// returns a comma seperated string of package names in the order of install,
         /// such that a package's dependency will always precede that package.
         /// </summary>
         /// <param name="inputArrOfStringTuples"></param>
-        /// <returns>string of packages in topological order, or invalid if an invalid string array was given 
-        /// (dependency is cyclic or has more than one dependent per dependee)</returns>
+        /// <returns>string of packages in topological order, or string "invalid" if an invalid 
+        /// string array was passed in (dependency is cyclic or has more than one dependent per dependee)</returns>
         public string solvePackageDependencies(string[] inputArrOfStringTuples)
         {
             if (inputArrOfStringTuples.Length == 0 || inputArrOfStringTuples == null) { return "invalid"; }

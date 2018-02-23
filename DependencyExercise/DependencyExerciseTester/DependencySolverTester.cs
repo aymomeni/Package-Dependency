@@ -8,12 +8,12 @@ using System.Collections.Generic;
  * @author: Ali Momeni 
  * Date: Feb, 22 2018
  * 
- * Package Installer Exercise supplied by Pluralsight
+ * Package Installer Dependency Exercise supplied by Pluralsight
  */
 namespace DependencyExerciseTester
 {
     [TestClass]
-    public class UnitTest1
+    public class DependencySolverTester
     {
         /// <summary>
         /// Simple first test
@@ -140,7 +140,6 @@ namespace DependencyExerciseTester
         [TestMethod]
         public void TestMethod8()
         {
-
             List<string> sList = new List<string>();
             sList.Add("1: ");
 
@@ -178,7 +177,6 @@ namespace DependencyExerciseTester
         [TestMethod]
         public void TestMethod9()
         {
-
             List<string> sList = new List<string>();
 
             for (int i = 0; i < 50; i++)
@@ -301,7 +299,7 @@ namespace DependencyExerciseTester
         }
 
         /// <summary>
-        /// Dependency test were the node dependencies are broken up
+        /// Dependency test that was given (exists above in number form)
         /// </summary>
         [TestMethod]
         public void TestMethod15()
