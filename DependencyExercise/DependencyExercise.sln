@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyExercise", "DependencyExercise\DependencyExercise.csproj", "{9E1A32B1-C3F2-4070-B927-0B0DC4A1BD01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyExerciseTester", "DependencyExerciseTester\DependencyExerciseTester.csproj", "{68967B73-5BC9-460D-8E93-9EECBECF7578}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9E1A32B1-C3F2-4070-B927-0B0DC4A1BD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E1A32B1-C3F2-4070-B927-0B0DC4A1BD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E1A32B1-C3F2-4070-B927-0B0DC4A1BD01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68967B73-5BC9-460D-8E93-9EECBECF7578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68967B73-5BC9-460D-8E93-9EECBECF7578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68967B73-5BC9-460D-8E93-9EECBECF7578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68967B73-5BC9-460D-8E93-9EECBECF7578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
