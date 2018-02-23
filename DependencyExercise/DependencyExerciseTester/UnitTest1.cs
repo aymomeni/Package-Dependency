@@ -144,18 +144,18 @@ namespace DependencyExerciseTester
             List<string> sList = new List<string>();
             sList.Add("1: ");
 
-            for (int i = 2; i < 100; i += 2)
+            for (int i = 2; i < 50; i += 1)
             {
-                sList.Add(i + ": " + ((int)i + 1));
+                sList.Add(i + ": " + ((int)i-1));
             }
-            string[] strArrGiven = new string[50];
+            string[] strArrGiven = new string[sList.Count];
 
             StringBuilder sBuilder = new StringBuilder();
             for (int i = 0; i < sList.Count; i++)
             {
                 strArrGiven[i] = sList[i];
 
-                if (i < sList.Count)
+                if (i + 1 < sList.Count)
                 {
                     sBuilder.Append((i + 1) + ", ");
                 }
