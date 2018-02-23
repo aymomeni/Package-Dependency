@@ -131,7 +131,7 @@ namespace DependencyExerciseTester
             string actual = dS.solvePackageDependencies(strArrGiven);
             string expected = "invalid";
 
-            Assert.AreEqual(expected, actual, "Test6 Failed");
+            Assert.AreEqual(expected, actual, "Test7 Failed");
         }
 
         /// <summary>
@@ -206,7 +206,9 @@ namespace DependencyExerciseTester
             Assert.AreEqual(expected, actual, "Test9 Failed");
         }
 
-
+        /// <summary>
+        /// Circular dependency test
+        /// </summary>
         [TestMethod]
         public void TestMethod10()
         {
@@ -215,7 +217,107 @@ namespace DependencyExerciseTester
             string actual = dS.solvePackageDependencies(strArrGiven);
             string expected = "invalid";
 
-            Assert.AreEqual(expected, actual, "Test5 Failed (should return invalid)");
+            Assert.AreEqual(expected, actual, "Test10 Failed");
+        }
+
+        /// <summary>
+        /// Circular dependency test
+        /// </summary>
+        [TestMethod]
+        public void TestMethod11()
+        {
+            string[] strArrGiven = new string[] { "1: ", 
+                                                  "2: 1", 
+                                                  "3: 2", 
+                                                  "4: 3", 
+                                                  "5: 3", };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "invalid";
+
+            Assert.AreEqual(expected, actual, "Test11 Failed");
+        }
+
+        /// <summary>
+        /// Dependency test were the node dependencies are broken up
+        /// </summary>
+        [TestMethod]
+        public void TestMethod12()
+        {
+            string[] strArrGiven = new string[] { "1: 2", 
+                                                  "2: 3", 
+                                                  "3: 4",
+                                                  "4: ",
+                                                  "5: 6", 
+                                                  "6:  ", };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "4, 6, 3, 5, 2, 1";
+
+            Assert.AreEqual(expected, actual, "Test12 Failed");
+        }
+
+
+        /// <summary>
+        /// Dependency test were the node dependencies are broken up
+        /// </summary>
+        [TestMethod]
+        public void TestMethod13()
+        {
+            string[] strArrGiven = new string[] { "1: 2", 
+                                                  "2: 3", 
+                                                  "3: 4",
+                                                  "4: ",
+                                                  "5: 6", 
+                                                  "6:  ", };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "4, 6, 3, 5, 2, 1";
+
+            Assert.AreEqual(expected, actual, "Test13 Failed");
+        }
+
+        /// <summary>
+        /// Dependency test were the node dependencies are broken up
+        /// </summary>
+        [TestMethod]
+        public void TestMethod14()
+        {
+            string[] strArrGiven = new string[] { "1: ", 
+                                                  "2: ", 
+                                                  "3: 2",
+                                                  "4: 3",
+                                                  "5: 4", 
+                                                  "6: " };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "1, 2, 6, 3, 4, 5";
+
+            Assert.AreEqual(expected, actual, "Test14 Failed");
+        }
+
+        /// <summary>
+        /// Dependency test were the node dependencies are broken up
+        /// </summary>
+        [TestMethod]
+        public void TestMethod15()
+        {
+            string[] strArrGiven = new string[] { "KittenService: ", 
+                                                  "Leetmeme: Cyberportal", 
+                                                  "Cyberportal: Ice",
+                                                  "CamelCaser: KittenService",
+                                                  "Fraudstream: Leetmeme", 
+                                                  "Ice: " };
+
+            DependencySolver dS = new DependencySolver();
+            string actual = dS.solvePackageDependencies(strArrGiven);
+            string expected = "KittenService, Ice, CamelCaser, Cyberportal, Leetmeme, Fraudstream";
+
+            Assert.AreEqual(expected, actual, "Test15 Failed");
         }
     }
 }

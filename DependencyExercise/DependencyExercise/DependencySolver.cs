@@ -16,8 +16,8 @@ namespace DependencyExercise
     public class DependencySolver
     {
         // Member variables
-        private int necessaryEdgeFollowups = 0;
-        private bool invalid = false;
+        private int mEdgeDependencyFollowupCount = 0;
+        private bool mInvalidCircularDependencyBool = false;
         private Queue<string> mQueue = new Queue<string>();
         private Dictionary<string, string> mDictionaryDependeeDependent = new Dictionary<string, string>();
 
@@ -41,7 +41,7 @@ namespace DependencyExercise
             // processing the strings in the array &
             // populating queue and dict.
             solvePackageDependenciesHelper(inputArrOfStringTuples);
-            if (invalid == true)
+            if (mInvalidCircularDependencyBool == true)
             {
                 return "invalid";
             }
@@ -49,7 +49,9 @@ namespace DependencyExercise
             string tempKey = "";
             string tempValue = "";
             
-            while(mQueue.Count > 0 || necessaryEdgeFollowups > 0) {
+            // as long as there is more nodes in the queue or more edges
+            // where dependencies must be checked
+            while(mQueue.Count > 0 || mEdgeDependencyFollowupCount > 0) {
 
                 if (mQueue.Count > 0)
                 {
@@ -63,11 +65,14 @@ namespace DependencyExercise
                         mDictionaryDependeeDependent.TryGetValue(tempKey, out tempValue);
                         mQueue.Enqueue(tempValue);
                         result.Add(tempKey + ", ");
-                        necessaryEdgeFollowups--;
+                        mEdgeDependencyFollowupCount--;
                     }
-                    else if (mQueue.Count == 0 && necessaryEdgeFollowups == 0)
+                    else if (mQueue.Count == 0 && mEdgeDependencyFollowupCount == 0)
                     {
-                        break; // break out so no comma is added at the last element
+                        // break out so no comma is added 
+                        // once the last element is reached
+                        break; 
+                        
                     }
                     else
                     {
@@ -95,7 +100,7 @@ namespace DependencyExercise
         /// <returns></returns>
         private void solvePackageDependenciesHelper(string[] sArr)
         {
-            // allowing regex to capture numbers so the testing is easier (I guess one could use only single letters but there is only 26 :)
+            // allowing regex to capture numbers so the testing is easier
             Regex regex = new Regex("(?<Dependent>[A-Za-z0-9]+)\\:\\s*(?<Dependee>[A-Za-z0-9]*)");
 
             String tempDependent    = "";
@@ -123,17 +128,21 @@ namespace DependencyExercise
                         // must be checked for further dependents
                         if (mDictionaryDependeeDependent.ContainsKey(tempDependee))
                         {
-                            invalid = true;
+                            mInvalidCircularDependencyBool = true;
                         }
-                        mDictionaryDependeeDependent.Add(tempDependee, tempDependent);
-                        necessaryEdgeFollowups++;
+                        try
+                        {
+                            mDictionaryDependeeDependent.Add(tempDependee, tempDependent);
+                        }
+                        catch (ArgumentException)
+                        {
+                            mInvalidCircularDependencyBool = true;
+                            return; 
+                        }
+                        mEdgeDependencyFollowupCount++;
                     }
 
-                    // TODO: What if we find at this point that this is cyclic or not based on specification?
-                    // if queue is empty something is wrong or if there is more then one dependent per dependee
-
                     match.NextMatch();
-                    Console.WriteLine("Dependent: " + tempDependent + " Dependee: " + tempDependee);
                 }
             }
 
@@ -141,19 +150,14 @@ namespace DependencyExercise
             // in the queue it must be a circular dependence
             if (mQueue.Count == 0)
             {
-                invalid = true;
+                mInvalidCircularDependencyBool = true;
             }
             return;
         }
 
-
         static void Main(string[] args)
         {
-            // Quick check if regex works
-            //string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: Leetmeme", "Ice: " };
 
-            //parseArrHelper(strArrGiven);
-            //Console.ReadLine();
         }
     }
 }
