@@ -8,6 +8,28 @@ namespace DependencyExercise
 {
     class Program
     {
+
+        private string[] stringArrOfDependencyTuples; 
+
+        // Constructor
+        public Program(string[] sArr)
+        {
+            this.stringArrOfDependencyTuples = sArr; 
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         static void Main(string[] args)
         {
         }
