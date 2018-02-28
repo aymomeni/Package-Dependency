@@ -31,7 +31,7 @@ namespace DependencyExercise
         public void addEdge(string v, string w)
         {
             LinkedList<string> listV;
-            if(this.mAdjacencyList.TryGetValue(v, out listV)){ }
+            if (this.mAdjacencyList.TryGetValue(v, out listV)) { }
             if (listV == null)
             {
                 this.mAdjacencyList[v] = new LinkedList<string>();
@@ -43,7 +43,7 @@ namespace DependencyExercise
             }
 
             LinkedList<string> listW;
-            if(this.mAdjacencyList.TryGetValue(w, out listW)){ }
+            if (this.mAdjacencyList.TryGetValue(w, out listW)) { }
             if (listW == null)
             {
                 this.mAdjacencyList[w] = new LinkedList<string>();
@@ -82,16 +82,47 @@ namespace DependencyExercise
         /// <summary>
         /// Helper function for topological sort
         /// </summary>
-        /// <param name="v"></param>
-        /// <param name="visited"></param>
-        /// <param name="stack"></param>
-        private void topologicalSortUtil(string v,  Dictionary<string, bool> visited, Stack<string> stack) 
+        /// <param name="v">represents the node</param>
+        /// <param name="visited">hashmap that maps nodes to boolean values</param>
+        /// <param name="stack">keeps track of the topologically sorted output</param>
+        private void topologicalSortUtil(string v, Dictionary<string, bool> visited, Stack<string> stack)
         {
+            visited[v] = true;
 
+            LinkedList<string> list = this.mAdjacencyList[v];
+            foreach (string s in list)
+            {
+                if (!visited[s])
+                {
+                    this.topologicalSortUtil(s, visited, stack);
+                }
+            }
+            stack.Push(v);
+        }
+
+        static void Main(string[] args)
+        {
+            // Create a graph given in the above diagram
+            Graph g = new Graph(6);
+            /*
+            g.addEdge("5", "2");
+            g.addEdge("5", "0");
+            g.addEdge("4", "0");
+            g.addEdge("4", "1");
+            g.addEdge("2", "3");
+            g.addEdge("3", "1");
+            */
+
+            g.addEdge("C", "B");
+            g.addEdge("C", "A");
+
+            Console.WriteLine("Following is a Topological " +
+                              "sort of the given graph");
+            g.topologicalSort();
+            Console.ReadLine();
         }
 
     }
-
 
 
 }

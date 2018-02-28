@@ -150,10 +150,5 @@ namespace DependencyExercise
             }
             return;
         }
-
-        static void Main(string[] args)
-        {
-
-        }
     }
 }
