@@ -48,15 +48,35 @@ namespace DependencyExercise
             {
                 this.mAdjacencyList[w] = new LinkedList<string>();
             }
+
+            // setting visited to false
+            this.mVisited[v] = false;
+            this.mVisited[w] = false;
         }
 
 
         /// <summary>
-        /// Performs a topological sort
+        /// Performs a topological sort (function that spawns the recursive
+        /// topological sort util function)
         /// </summary>
         public void topologicalSort()
         {
+            // stack used to keep track of the output elements
+            Stack<string> stack = new Stack<string>();
 
+            foreach (string s in this.mVisited.Keys.ToArray<string>())
+            {
+                // if it's not visited call util function
+                if (!this.mVisited[s])
+                {
+                    this.topologicalSortUtil(s, this.mVisited, stack);
+                }
+            }
+
+            while (stack.Count > 0)
+            {
+                Console.Write(stack.Pop() + " "); // after rec this outputs topologically ordered nodes
+            }
         }
 
         /// <summary>
