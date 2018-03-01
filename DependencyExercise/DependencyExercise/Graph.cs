@@ -89,7 +89,7 @@ namespace DependencyExercise
                 // if it's not visited call util function
                 if (!this.mVisited[s])
                 {
-                    this.topologicalSortPackagesUtil(s, this.mVisited, stack);
+                    this.topologicalSortPackagesUtil(s, s, this.mVisited, stack);
                 }
 
             }
@@ -121,16 +121,20 @@ namespace DependencyExercise
         /// <param name="v">represents the node</param>
         /// <param name="visited">hashmap that maps nodes to boolean values</param>
         /// <param name="stack">keeps track of the topologically sorted output</param>
-        private void topologicalSortPackagesUtil(string v, Dictionary<string, bool> visited, Stack<string> stack)
+        private void topologicalSortPackagesUtil(string start, string v, Dictionary<string, bool> visited, Stack<string> stack)
         {
             visited[v] = true;
 
             LinkedList<string> list = this.mAdjacencyList[v];
             foreach (string s in list)
             {
+                if (s.Equals(start))
+                {
+                    mCircularDependency = true;
+                }
                 if (!visited[s])
                 {
-                    this.topologicalSortPackagesUtil(s, visited, stack);
+                    this.topologicalSortPackagesUtil(start, s, visited, stack);
                 }
             }
 
