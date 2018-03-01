@@ -95,7 +95,7 @@ namespace DependencyExercise
                 if (!visited[s])
                 {
                     this.topologicalSortUtil(s, visited, stack);
-                }
+                } // else it should be a circular dependency
             }
             stack.Push(v);
         }
@@ -113,8 +113,18 @@ namespace DependencyExercise
             g.addEdge("3", "1");
             */
 
+            /*
             g.addEdge("C", "B");
             g.addEdge("C", "A");
+            */
+
+            /*
+            g.addEdge("A", "E");
+            g.addEdge("B", "F");
+            g.addEdge("C", "B");
+            g.addEdge("D", "C");
+            g.addEdge("D", "G");
+            */
 
             Console.WriteLine("Following is a Topological " +
                               "sort of the given graph");
