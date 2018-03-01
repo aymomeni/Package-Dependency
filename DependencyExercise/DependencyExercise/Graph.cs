@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DependencyExercise
@@ -10,15 +11,15 @@ namespace DependencyExercise
     /// Graph Class based on https://www.geeksforgeeks.org/topological-sorting/ java graph class
     /// This class is rewritten from java into C#
     /// </summary>
-    class Graph
+    public class Graph
     {
-        private int mNumberOfVertices; // represents the number of vertices
+
+        // Member variables
         private Dictionary<string, LinkedList<string>> mAdjacencyList;
         private Dictionary<string, bool> mVisited;
 
-        Graph(int v)
+        Graph()
         {
-            this.mNumberOfVertices = v;
             this.mAdjacencyList = new Dictionary<string, LinkedList<string>>();
             this.mVisited = new Dictionary<string, bool>();
         }
@@ -59,8 +60,12 @@ namespace DependencyExercise
         /// Performs a topological sort (function that spawns the recursive
         /// topological sort util function)
         /// </summary>
-        public void topologicalSort()
+        public void topologicalSort(string[] inputArrOfStringTuples)
         {
+            // parse string and fill edges
+            solvePackageDependenciesHelper(inputArrOfStringTuples);
+
+
             // stack used to keep track of the output elements
             Stack<string> stack = new Stack<string>();
 
@@ -100,10 +105,56 @@ namespace DependencyExercise
             stack.Push(v);
         }
 
+
+        /// <summary>
+        /// Helper method that uses regex to parse string array into tuples. Performs
+        /// circular dependency checks, and checks if a node has more then one dependent.
+        /// Also populates the member queue and dictionary for further processing.
+        /// </summary>
+        /// <param name="sArr"></param>
+        /// <returns></returns>
+        private void solvePackageDependenciesHelper(string[] sArr)
+        {
+            // allowing regex to capture numbers so the testing is easier
+            Regex regex = new Regex("(?<Dependent>[A-Za-z0-9]+)\\:\\s*(?<Dependee>[A-Za-z0-9]*)");
+
+            String tempDependent = "";
+            String tempDependee = "";
+
+
+            foreach (string s in sArr)
+            {
+                Match match = regex.Match(s);
+
+                if (match.Success)
+                {
+                    // grabbing respective groups using regex group functionality
+                    tempDependent = match.Groups["Dependent"].Value.Trim();
+                    tempDependee = match.Groups["Dependee"].Value.Trim();
+
+                    if (tempDependee.Equals(""))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        this.addEdge(tempDependee, tempDependent);
+                    }
+
+                    match.NextMatch();
+                }
+            }
+
+            return;
+        }
+
+
+
+
         static void Main(string[] args)
         {
             // Create a graph given in the above diagram
-            Graph g = new Graph(6);
+            Graph g = new Graph();
             /*
             g.addEdge("5", "2");
             g.addEdge("5", "0");
@@ -128,7 +179,8 @@ namespace DependencyExercise
 
             Console.WriteLine("Following is a Topological " +
                               "sort of the given graph");
-            g.topologicalSort();
+
+            g.topologicalSort(new string[] {"E: A", "F: B", "B: C", "C: D", "A: G", "G: D", "D: "});
             Console.ReadLine();
         }
 
