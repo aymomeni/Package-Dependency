@@ -45,7 +45,7 @@ namespace DependencyExerciseTester
                                                   "4: " };
             Graph dS = new Graph();
             string actual = dS.topologicalSortPackages(strArrGiven);
-            string expected = "1, 4, 5, 3, 2, 6";
+            string expected = "4, 3, 2, 6, 1, 5";
 
             Assert.AreEqual(expected, actual, "Test2 Failed");
         }
@@ -85,7 +85,7 @@ namespace DependencyExerciseTester
                                                   "7: " };
             Graph dS = new Graph();
             string actual = dS.topologicalSortPackages(strArrGiven);
-            string expected = "1, 2, 3, 4, 5, 6, 7";
+            string expected = "7, 6, 5, 4, 3, 2, 1";
 
             Assert.AreEqual(expected, actual, "Test4 Failed");
         }

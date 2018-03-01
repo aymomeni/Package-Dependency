@@ -17,11 +17,13 @@ namespace DependencyExercise
         // Member variables
         private Dictionary<string, LinkedList<string>> mAdjacencyList;
         private Dictionary<string, bool> mVisited;
+        private bool mCircularDependency;
 
         public Graph()
         {
             this.mAdjacencyList = new Dictionary<string, LinkedList<string>>();
             this.mVisited = new Dictionary<string, bool>();
+            this.mCircularDependency = false;
         }
 
         /// <summary>
@@ -31,6 +33,18 @@ namespace DependencyExercise
         /// <param name="w"></param>
         public void addEdge(string v, string w)
         {
+            if (v.Equals("") && !w.Equals(""))
+            {
+                LinkedList<string> listWAlone;
+                if (this.mAdjacencyList.TryGetValue(w, out listWAlone)) { }
+                if (listWAlone == null)
+                {
+                    this.mAdjacencyList[w] = new LinkedList<string>();
+                }
+                this.mVisited[w] = false;
+                return;
+            }
+
             LinkedList<string> listV;
             if (this.mAdjacencyList.TryGetValue(v, out listV)) { }
             if (listV == null)
@@ -91,7 +105,12 @@ namespace DependencyExercise
                 sB.Append(stack.Pop() + ", "); // after rec this outputs topologically ordered nodes
             }
 
-            return sB.ToString();
+            if (mCircularDependency == false)
+            {
+                return sB.ToString();
+            }
+
+            return "invalid";
         }
 
         /// <summary>
@@ -141,14 +160,8 @@ namespace DependencyExercise
                     tempDependent = match.Groups["Dependent"].Value.Trim();
                     tempDependee = match.Groups["Dependee"].Value.Trim();
 
-                    if (tempDependee.Equals(""))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        this.addEdge(tempDependee, tempDependent);
-                    }
+                    this.addEdge(tempDependee, tempDependent);
+
 
                     match.NextMatch();
                 }
