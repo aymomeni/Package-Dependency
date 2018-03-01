@@ -18,7 +18,7 @@ namespace DependencyExercise
         private Dictionary<string, LinkedList<string>> mAdjacencyList;
         private Dictionary<string, bool> mVisited;
 
-        Graph()
+        public Graph()
         {
             this.mAdjacencyList = new Dictionary<string, LinkedList<string>>();
             this.mVisited = new Dictionary<string, bool>();
@@ -57,10 +57,11 @@ namespace DependencyExercise
 
 
         /// <summary>
-        /// Performs a topological sort (function that spawns the recursive
-        /// topological sort util function)
+        /// Topologically sorts packages
         /// </summary>
-        public void topologicalSort(string[] inputArrOfStringTuples)
+        /// <param name="inputArrOfStringTuples"> Colon seperated tuples of string packages that describe depnendent:dependee relationships at each index </param>
+        /// <returns>comma seperated string of packages that are topologically sorted </returns>
+        public string topologicalSortPackages(string[] inputArrOfStringTuples)
         {
             // parse string and fill edges
             solvePackageDependenciesHelper(inputArrOfStringTuples);
@@ -74,14 +75,23 @@ namespace DependencyExercise
                 // if it's not visited call util function
                 if (!this.mVisited[s])
                 {
-                    this.topologicalSortUtil(s, this.mVisited, stack);
+                    this.topologicalSortPackagesUtil(s, this.mVisited, stack);
                 }
             }
 
+            StringBuilder sB = new StringBuilder();
+
             while (stack.Count > 0)
             {
-                Console.Write(stack.Pop() + " "); // after rec this outputs topologically ordered nodes
+                if (stack.Count == 1)
+                {
+                    sB.Append(stack.Pop());
+                    break;
+                }
+                sB.Append(stack.Pop() + ", "); // after rec this outputs topologically ordered nodes
             }
+
+            return sB.ToString();
         }
 
         /// <summary>
@@ -90,7 +100,7 @@ namespace DependencyExercise
         /// <param name="v">represents the node</param>
         /// <param name="visited">hashmap that maps nodes to boolean values</param>
         /// <param name="stack">keeps track of the topologically sorted output</param>
-        private void topologicalSortUtil(string v, Dictionary<string, bool> visited, Stack<string> stack)
+        private void topologicalSortPackagesUtil(string v, Dictionary<string, bool> visited, Stack<string> stack)
         {
             visited[v] = true;
 
@@ -99,20 +109,19 @@ namespace DependencyExercise
             {
                 if (!visited[s])
                 {
-                    this.topologicalSortUtil(s, visited, stack);
-                } // else it should be a circular dependency
+                    this.topologicalSortPackagesUtil(s, visited, stack);
+                }
             }
+
             stack.Push(v);
+
         }
 
 
         /// <summary>
-        /// Helper method that uses regex to parse string array into tuples. Performs
-        /// circular dependency checks, and checks if a node has more then one dependent.
-        /// Also populates the member queue and dictionary for further processing.
+        /// Helper method that uses regex to parse string array into tuples and fills this instance of the graph
         /// </summary>
         /// <param name="sArr"></param>
-        /// <returns></returns>
         private void solvePackageDependenciesHelper(string[] sArr)
         {
             // allowing regex to capture numbers so the testing is easier
@@ -180,7 +189,9 @@ namespace DependencyExercise
             Console.WriteLine("Following is a Topological " +
                               "sort of the given graph");
 
-            g.topologicalSort(new string[] {"E: A", "F: B", "B: C", "C: D", "A: G", "G: D", "D: "});
+            //g.topologicalSort(new string[] {"E: A", "F: B", "B: C", "C: D", "A: G", "G: D", "D: "});
+            //String s = g.topologicalSortPackages(new string[] { "A: C", "B: C", "C: " });
+            //Console.WriteLine(s);
             Console.ReadLine();
         }
 

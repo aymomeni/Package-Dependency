@@ -8,6 +8,8 @@ using System.Collections.Generic;
  * @author: Ali Momeni 
  * Date: Feb, 22 2018
  * 
+ * Revision: Feb, 28 2017
+ * 
  * Package Installer Dependency Exercise supplied by Pluralsight
  */
 namespace DependencyExerciseTester
@@ -22,8 +24,8 @@ namespace DependencyExerciseTester
         public void TestMethod1()
         {
             string[] strArrGiven = new string[] { "KittenService: CamelCaser", "CamelCaser: " };
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "CamelCaser, KittenService";
 
             Assert.AreEqual(expected, actual, "Test1 Failed");  
@@ -41,8 +43,8 @@ namespace DependencyExerciseTester
                                                   "5: 1", 
                                                   "6: 2", 
                                                   "4: " };
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "1, 4, 5, 3, 2, 6";
 
             Assert.AreEqual(expected, actual, "Test2 Failed");
@@ -60,8 +62,8 @@ namespace DependencyExerciseTester
                                                   "5: 6", 
                                                   "6: 7", 
                                                   "7: 1" };
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "invalid";
 
             Assert.AreEqual(expected, actual, "Test3 Failed");
@@ -81,8 +83,8 @@ namespace DependencyExerciseTester
                                                   "5: ", 
                                                   "6: ", 
                                                   "7: " };
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "1, 2, 3, 4, 5, 6, 7";
 
             Assert.AreEqual(expected, actual, "Test4 Failed");
@@ -96,8 +98,8 @@ namespace DependencyExerciseTester
         {
             string[] strArrGiven = new string[] { "1: "};
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "1";
 
             Assert.AreEqual(expected, actual, "Test5 Failed");
@@ -111,8 +113,8 @@ namespace DependencyExerciseTester
         {
             string[] strArrGiven = new string[] { "1: 1" };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "invalid";
 
             Assert.AreEqual(expected, actual, "Test6 Failed");
@@ -127,8 +129,8 @@ namespace DependencyExerciseTester
         {
             string[] strArrGiven = new string[] { "1: 2", "2: 3", "3: 1" };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "invalid";
 
             Assert.AreEqual(expected, actual, "Test7 Failed");
@@ -163,8 +165,8 @@ namespace DependencyExerciseTester
                 
             }
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(sList.ToArray());
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(sList.ToArray());
             string expected = sBuilder.ToString();
 
             Assert.AreEqual(expected, actual, "Test8 Failed");
@@ -197,8 +199,8 @@ namespace DependencyExerciseTester
                 }
             }
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(sList.ToArray());
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(sList.ToArray());
             string expected = sBuilder.ToString();
 
             Assert.AreEqual(expected, actual, "Test9 Failed");
@@ -211,8 +213,8 @@ namespace DependencyExerciseTester
         public void TestMethod10()
         {
             string[] strArrGiven = new string[] { "KittenService: ", "Leetmeme: Cyberportal", "Cyberportal: Ice", "CamelCaser: KittenService", "Fraudstream: ", "Ice: Leetmeme" };
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "invalid";
 
             Assert.AreEqual(expected, actual, "Test10 Failed");
@@ -230,8 +232,8 @@ namespace DependencyExerciseTester
                                                   "4: 3", 
                                                   "5: 3", };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "invalid";
 
             Assert.AreEqual(expected, actual, "Test11 Failed");
@@ -250,8 +252,8 @@ namespace DependencyExerciseTester
                                                   "5: 6", 
                                                   "6:  ", };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "4, 6, 3, 5, 2, 1";
 
             Assert.AreEqual(expected, actual, "Test12 Failed");
@@ -271,8 +273,8 @@ namespace DependencyExerciseTester
                                                   "5: 6", 
                                                   "6:  ", };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "4, 6, 3, 5, 2, 1";
 
             Assert.AreEqual(expected, actual, "Test13 Failed");
@@ -291,8 +293,8 @@ namespace DependencyExerciseTester
                                                   "5: 4", 
                                                   "6: " };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "1, 2, 6, 3, 4, 5";
 
             Assert.AreEqual(expected, actual, "Test14 Failed");
@@ -311,11 +313,39 @@ namespace DependencyExerciseTester
                                                   "Fraudstream: Leetmeme", 
                                                   "Ice: " };
 
-            DependencySolver dS = new DependencySolver();
-            string actual = dS.solvePackageDependencies(strArrGiven);
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "KittenService, Ice, CamelCaser, Cyberportal, Leetmeme, Fraudstream";
 
             Assert.AreEqual(expected, actual, "Test15 Failed");
+        }
+
+        /// <summary>
+        /// New tests supplied through email that initially failed
+        /// </summary>
+        [TestMethod]
+        public void TestMethod16()
+        {
+
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(new string[] { "E: A", "F: B", "B: C", "C: D", "A: G", "G: D", "D: " });
+            string expected = "D, G, C, B, F, A, E";
+
+            Assert.AreEqual(expected, actual, "Test16 Failed");
+        }
+
+        /// <summary>
+        /// New tests supplied through email that initially failed
+        /// </summary>
+        [TestMethod]
+        public void TestMethod17()
+        {
+
+            Graph dS = new Graph();
+            string actual = dS.topologicalSortPackages(new string[] { "A: C", "B: C", "C: " });
+            string expected = "C, B, A";
+
+            Assert.AreEqual(expected, actual, "Test17 Failed");
         }
     }
 }
