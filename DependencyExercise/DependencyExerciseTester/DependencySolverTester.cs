@@ -56,12 +56,10 @@ namespace DependencyExerciseTester
         [TestMethod]
         public void TestMethod3()
         {
-            string[] strArrGiven = new string[] { "1: 2", 
-                                                  "2: 3", 
-                                                  "3: 4", 
-                                                  "5: 6", 
-                                                  "6: 7", 
-                                                  "7: 1" };
+            string[] strArrGiven = new string[] { "1: ", 
+                                                  "2: 1", 
+                                                  "1: 2", };
+
             Graph dS = new Graph();
             string actual = dS.topologicalSortPackages(strArrGiven);
             string expected = "invalid";
@@ -234,7 +232,7 @@ namespace DependencyExerciseTester
 
             Graph dS = new Graph();
             string actual = dS.topologicalSortPackages(strArrGiven);
-            string expected = "invalid";
+            string expected = "1, 2, 3, 5, 4";
 
             Assert.AreEqual(expected, actual, "Test11 Failed");
         }

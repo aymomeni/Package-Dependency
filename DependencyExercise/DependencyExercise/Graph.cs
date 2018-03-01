@@ -33,7 +33,7 @@ namespace DependencyExercise
         /// <param name="w"></param>
         public void addEdge(string v, string w)
         {
-            if (v.Equals("") && !w.Equals(""))
+            if ((v.Equals("") && !w.Equals("")))
             {
                 LinkedList<string> listWAlone;
                 if (this.mAdjacencyList.TryGetValue(w, out listWAlone)) { }
@@ -91,8 +91,10 @@ namespace DependencyExercise
                 {
                     this.topologicalSortPackagesUtil(s, this.mVisited, stack);
                 }
+
             }
 
+            // preparing output string with string builder
             StringBuilder sB = new StringBuilder();
 
             while (stack.Count > 0)
