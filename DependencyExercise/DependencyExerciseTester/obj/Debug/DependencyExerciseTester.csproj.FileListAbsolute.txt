@@ -1,0 +1,7 @@
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\bin\Debug\DependencyExerciseTester.dll
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\bin\Debug\DependencyExerciseTester.pdb
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\bin\Debug\DependencyExercise.exe
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\bin\Debug\DependencyExercise.pdb
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\obj\Debug\DependencyExerciseTester.csprojResolveAssemblyReference.cache
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\obj\Debug\DependencyExerciseTester.dll
+C:\Users\Ali\Desktop\Package_Installer_Exercise_Ali_Momeni\DependencyExercise\DependencyExerciseTester\obj\Debug\DependencyExerciseTester.pdb
